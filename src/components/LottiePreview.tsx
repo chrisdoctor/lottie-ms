@@ -1,17 +1,9 @@
-import React from 'react';
-import { Player } from '@lottiefiles/react-lottie-player';
+import React from "react";
+import Lottie from "lottie-react";
+import lottie1 from "../data/lottie1.json";
 
 const LottiePreview: React.FC = () => {
-  return (
-    <div>
-      <Player
-        autoplay
-        loop
-        src={"lottie file here"}
-        style={{ height: '300px', width: '300px' }}
-      />
-    </div>
-  );
+  return <Lottie animationData={lottie1} loop={true} />;
 };
 
 export default LottiePreview;
