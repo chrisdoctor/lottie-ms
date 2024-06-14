@@ -1,11 +1,10 @@
-import React from 'react';
-import LottiePreview from './components/LottiePreview';
+import React from "react";
+import Main from "./components/Main";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>Lottie MS</h1>
-      <LottiePreview />
+    <div className="App">
+      <Main />
     </div>
   );
 };
