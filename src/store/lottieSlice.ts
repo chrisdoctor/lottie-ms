@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GraphQLClient, gql } from "graphql-request";
 
-const endpoint = "http://localhost:3001/graphql";
+const endpoint = "http://localhost:4000/graphql";
 const client = new GraphQLClient(endpoint, {
   headers: {
     "Content-Type": "application/json",

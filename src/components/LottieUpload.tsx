@@ -51,7 +51,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
           >
             &#8203;
           </span>
-          <div className="inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-6">
+          <div className="inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:w-1/2 sm:max-w-lg sm:p-6">
             <Dialog.Title
               as="h3"
               className="text-lg leading-6 font-medium text-gray-900"
@@ -94,7 +94,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                 )}
                 {fileName && (
                   <div className="mt-2 flex items-center">
-                    <span className="text-gray-700">{fileName}</span>
+                    <span className="text-gray-700 truncate">{fileName}</span>
                     <button
                       type="button"
                       onClick={handleClearFile}
@@ -115,7 +115,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600"
                 >
                   Submit
                 </button>
