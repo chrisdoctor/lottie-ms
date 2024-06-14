@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 // import LottiePreview from "./LottiePreview";
-// import LottieUpload from "./LottieUpload";
 import LottieSearch from "./LottieSearch";
+import LottieUpload from "./LottieUpload";
 
 const Main: React.FC = () => {
-  const openUploadDialog = () => {
-    alert("Upload dialog will open here.");
-    // Logic to open upload dialog will be added later
-  };
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
 
   return (
     <div className="flex items-center justify-start md:justify-center h-screen bg-gray-100">
@@ -17,11 +14,16 @@ const Main: React.FC = () => {
         <LottieSearch />
         <button
           className="mt-6 px-4 py-2 bg-teal-500 text-white rounded-md"
-          onClick={openUploadDialog}
+          onClick={() => setIsUploadDialogOpen(true)}
         >
           Upload Animation
         </button>
       </div>
+
+      <LottieUpload
+        isOpen={isUploadDialogOpen}
+        onClose={() => setIsUploadDialogOpen(false)}
+      />
     </div>
   );
 };
