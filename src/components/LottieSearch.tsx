@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getItem, resetState } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
+import LottiePreview from "./LottiePreview";
 
 const LottieSearch: React.FC = () => {
   const [id, setId] = useState("");
@@ -41,9 +42,13 @@ const LottieSearch: React.FC = () => {
         <div className="results">
           {item && (
             <div>
-              <h3>Response</h3>
-              <p>ID: {item.id}</p>
-              <p>Description: {item.description}</p>
+              <LottiePreview animation={item.lottieFile.contents} />
+              <div className="text-sm">
+                <p>Description: {item.description}</p>
+                <p>Tags: {item.tags}</p>
+                <p>Author: {item.author}</p>
+                <p>Uploaded: {item.dateUploaded}</p>
+              </div>
             </div>
           )}
           {error && <p>Error: {error}</p>}
