@@ -70,7 +70,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
           <div className="inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:w-1/2 sm:max-w-lg sm:p-6">
             <h2 className="text-xl">Upload Lottie Animation</h2>
-            <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+            <div className="mt-4 space-y-4">
               <LottieUploadFilePicker
                 fileName={fileName}
                 setFileName={setFileName}
@@ -109,7 +109,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                   Submit
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </Dialog>
