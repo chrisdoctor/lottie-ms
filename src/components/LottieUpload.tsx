@@ -5,6 +5,7 @@ import { addItem } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
 import LottieUploadTags from "./LottieUploadTags";
+import LottieUploadField from "./LottieUploadField";
 
 interface FileDialogProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const [id, setId] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [author, setAuthor] = useState("");
 
   const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
@@ -83,30 +85,17 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
           <div className="inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:w-1/2 sm:max-w-lg sm:p-6">
             <h2 className="text-xl">Upload Lottie Animation</h2>
             <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  ID:
-                </label>
-                <input
-                  type="text"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Description:
-                </label>
-                <input
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
-                />
-              </div>
+              <LottieUploadField
+                label="Description"
+                value={description}
+                setter={setDescription}
+              />
+              <LottieUploadField
+                label="Author"
+                value={author}
+                setter={setAuthor}
+              />
               <LottieUploadTags tags={tags} setTags={setTags} />
-
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   File:
