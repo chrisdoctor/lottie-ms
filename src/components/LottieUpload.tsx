@@ -29,13 +29,19 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [author, setAuthor] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(addItem({ id, description }));
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitted(true);
+    if (!description.trim() && !author.trim()) {
+      return;
+    }
+
+    // dispatch(addItem({ id, description }));
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,12 +94,16 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
               <LottieUploadField
                 label="Description"
                 value={description}
-                setter={setDescription}
+                onChange={setDescription}
+                required
+                error={submitted && !description.trim()}
               />
               <LottieUploadField
                 label="Author"
                 value={author}
-                setter={setAuthor}
+                onChange={setAuthor}
+                required
+                error={submitted && !author.trim()}
               />
               <LottieUploadTags tags={tags} setTags={setTags} />
               <div>
@@ -148,6 +158,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                 </button>
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   className="bg-teal-500 text-white px-4 py-2 rounded-lg relative z-11"
                 >
                   Submit
