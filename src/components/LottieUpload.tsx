@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
+import LottieUploadTags from "./LottieUploadTags";
 
 interface FileDialogProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const [isValidFile, setIsValidFile] = useState<boolean | null>(null);
   const [id, setId] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
 
   const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
@@ -78,16 +80,6 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
         onClose={onClose}
       >
         <div className="flex items-center justify-center min-h-screen px-4 text-center">
-          <div
-            className="fixed inset-0 bg-black bg-opacity-30 transition-opacity"
-            aria-hidden="true"
-          />
-          <span
-            className="inline-block align-middle h-screen"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
           <div className="inline-block align-middle bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-11/12 sm:w-1/2 sm:max-w-lg sm:p-6">
             <h2 className="text-xl">Upload Lottie Animation</h2>
             <form onSubmit={handleSubmit} className="mt-4 space-y-4">
@@ -113,6 +105,8 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
                 />
               </div>
+              <LottieUploadTags tags={tags} setTags={setTags} />
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   File:
@@ -159,13 +153,13 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 relative z-11"
+                  className="bg-gray-400 text-white px-4 py-2 rounded-lg relative z-11"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 relative z-11"
+                  className="bg-teal-500 text-white px-4 py-2 rounded-lg relative z-11"
                 >
                   Submit
                 </button>
