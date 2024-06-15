@@ -39,10 +39,10 @@ const LottieSearch: React.FC = () => {
         </button>
       </div>
       {searchKeyword && (
-        <div className="results">
+        <div className="results flex overflow-x-auto space-x-4 p-4 justify-center">
           {items.length > 0 &&
             items.map((item) => (
-              <div>
+              <div className="min-w-[180px]">
                 <LottiePreview animation={item.lottieFile.contents} />
                 <div className="text-sm">
                   <p>Description: {item.description}</p>
