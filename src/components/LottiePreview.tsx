@@ -1,8 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import Lottie from "lottie-react";
-import lottie1 from "../data/lottie1.json";
 
-const LottiePreview: React.FC = () => {
+interface PreviewProps {
+  animation: string;
+}
+
+const LottiePreview: React.FC<PreviewProps> = ({ animation }) => {
   const lottieRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -16,10 +19,14 @@ const LottiePreview: React.FC = () => {
   return (
     <div
       ref={lottieRef}
-      className="border border-gray-300 rounded-lg flex justify-center items-center pointer-events-none"
+      className="border border-gray-300 rounded-lg mx-auto w-40 p-1 mb-4 pointer-events-none"
     >
-      <div className="h-40 w-40 items-center justify-center">
-        <Lottie className="relative z-10" animationData={lottie1} loop={true} />
+      <div className="h-40 items-center justify-center">
+        <Lottie
+          className="relative z-10"
+          animationData={JSON.parse(animation)}
+          loop={true}
+        />
       </div>
     </div>
   );
