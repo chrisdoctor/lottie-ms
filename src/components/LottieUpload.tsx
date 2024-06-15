@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../store";
 import LottieUploadTags from "./LottieUploadTags";
 import LottieUploadField from "./LottieUploadField";
 import LottieUploadFilePicker from "./LottieUploadFilePicker";
+import { v4 as uuidv4 } from "uuid";
 
 interface FileDialogProps {
   isOpen: boolean;
@@ -15,8 +16,8 @@ interface FileDialogProps {
 const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [file, setFile] = useState<File | null>(null);
-  const [id, setId] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [fileContent, setFileContent] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [author, setAuthor] = useState("");
@@ -32,13 +33,26 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    // dispatch(addItem({ id, description }));
+    const item = {
+      id: uuidv4(),
+      dateUploaded: Date().toString(),
+      description,
+      tags,
+      author,
+      lottieFile: {
+        filename: fileName,
+        contents: fileContent,
+      },
+    };
+    console.log("ITEM", item);
+    dispatch(addItem(item));
     closeDialog();
   };
 
   const closeDialog = () => {
     setSubmitted(false);
-    setFile(null);
+    setFileName("");
+    setFileContent("");
     setDescription("");
     setAuthor("");
     setTags([]);
@@ -58,9 +72,10 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
             <h2 className="text-xl">Upload Lottie Animation</h2>
             <form onSubmit={handleSubmit} className="mt-4 space-y-4">
               <LottieUploadFilePicker
-                file={file}
-                setFile={setFile}
-                error={submitted && !file}
+                fileName={fileName}
+                setFileName={setFileName}
+                setContent={setFileContent}
+                error={submitted && !fileName}
               />
               <LottieUploadField
                 label="Description"

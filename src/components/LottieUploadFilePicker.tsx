@@ -2,8 +2,9 @@ import React, { Fragment, useState } from "react";
 import LottiePreview from "./LottiePreview";
 
 interface PickerInputProps {
-  file: File | null;
-  setFile: (value: File | null) => void;
+  fileName: string;
+  setFileName: (value: string) => void;
+  setContent: (value: string) => void;
   error?: boolean;
 }
 
@@ -16,8 +17,9 @@ interface LottieFile {
 }
 
 const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
-  file,
-  setFile,
+  fileName,
+  setFileName,
+  setContent,
   error = false,
 }) => {
   const [isValidFile, setIsValidFile] = useState<boolean | null>(null);
@@ -27,14 +29,16 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
     setIsValidFile(null);
 
     if (selectedFile && selectedFile.type === "application/json") {
-      setFile(selectedFile);
+      console.log("selectedFile.name", selectedFile.name);
+      setFileName(selectedFile.name);
 
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         try {
-          const json: LottieFile = JSON.parse(e.target?.result as string);
-          if (validateLottieFile(json)) {
+          const content = e.target?.result as string;
+          if (validateLottieFile(JSON.parse(content))) {
             setIsValidFile(true);
+            setContent(content);
           } else {
             setIsValidFile(false);
           }
@@ -54,7 +58,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
   };
 
   const handleClearFile = () => {
-    setFile(null);
+    setFileName("");
     setIsValidFile(null);
   };
 
@@ -62,7 +66,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
     <Fragment>
       <div>
         <label className="block text-sm font-medium text-gray-700">File:</label>
-        {!file && (
+        {!fileName && (
           <input
             type="file"
             accept=".json"
@@ -73,10 +77,10 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
         {error && (
           <p className="text-red-500 text-sm mt-1">This is a required field</p>
         )}
-        {file && (
+        {fileName && (
           <Fragment>
             <div className="mt-2 flex items-center">
-              <span className="text-gray-700 truncate">{file.name}</span>
+              <span className="text-gray-700 truncate">{fileName}</span>
               <button
                 type="button"
                 onClick={handleClearFile}
@@ -93,7 +97,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
           </Fragment>
         )}
       </div>
-      {file && isValidFile && (
+      {fileName && isValidFile && (
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Preview:
