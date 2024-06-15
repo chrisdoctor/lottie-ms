@@ -33,6 +33,17 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
     }
 
     // dispatch(addItem({ id, description }));
+    closeDialog();
+  };
+
+  const closeDialog = () => {
+    setSubmitted(false);
+    setFile(null);
+    setDescription("");
+    setAuthor("");
+    setTags([]);
+
+    onClose();
   };
 
   return (
@@ -69,7 +80,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={closeDialog}
                   className="bg-gray-400 text-white px-4 py-2 rounded-lg relative z-11"
                 >
                   Cancel
