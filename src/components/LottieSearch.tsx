@@ -39,7 +39,7 @@ const LottieSearch: React.FC = () => {
         </button>
       </div>
       {searchKeyword && (
-        <div className="results flex overflow-x-auto space-x-4 p-4 justify-center">
+        <div className="results flex overflow-x-auto space-x-4 p-4">
           {items.length > 0 &&
             items.map((item) => (
               <div className="min-w-[180px]">
