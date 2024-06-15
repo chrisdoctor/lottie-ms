@@ -10,7 +10,7 @@ const client = new GraphQLClient(endpoint, {
 
 interface LottieFile {
   filename: string;
-  contents: Record<string, any>;
+  contents: string;
 }
 
 interface Item {
