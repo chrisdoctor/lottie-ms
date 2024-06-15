@@ -25,14 +25,23 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
   error = false,
 }) => {
   const [isValidFile, setIsValidFile] = useState<boolean | null>(null);
+  const [isValidSize, setIsValidSize] = useState<boolean | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     setIsValidFile(null);
+    setIsValidSize(null);
 
     if (selectedFile && selectedFile.type === "application/json") {
-      console.log("selectedFile.name", selectedFile.name);
       setFileName(selectedFile.name);
+
+      const fileSizeInMB = selectedFile.size / (1024 * 1024);
+      if (fileSizeInMB > 5) {
+        setIsValidSize(false);
+        return;
+      } else {
+        setIsValidSize(true);
+      }
 
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
@@ -62,6 +71,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
   const handleClearFile = () => {
     setFileName("");
     setIsValidFile(null);
+    setIsValidSize(null);
   };
 
   return (
@@ -96,10 +106,15 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
                 This is not a valid Lottie animation file
               </p>
             )}
+            {!isValidSize && (
+              <p className="text-red-500 text-sm mt-1">
+                Selected file has exceeded the file size limit of 5mb
+              </p>
+            )}
           </Fragment>
         )}
       </div>
-      {fileName && isValidFile && (
+      {fileName && isValidFile && isValidSize && (
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Preview:
