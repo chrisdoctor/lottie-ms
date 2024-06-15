@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getItem, resetState } from "../store/lottieSlice";
+import { resetState, searchItems } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
 
 const LottieSearch: React.FC = () => {
-  const [id, setId] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-  const item = useSelector((state: RootState) => state.item.item);
+  const items = useSelector((state: RootState) => state.item.items);
   // const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
 
   const handleSearchClick = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(getItem(id));
+    dispatch(searchItems(searchKeyword));
   };
 
   const handleSearchChange = (keyword: string) => {
     dispatch(resetState());
-    setId(keyword);
+    setSearchKeyword(keyword);
   };
 
   return (
@@ -26,7 +26,7 @@ const LottieSearch: React.FC = () => {
       <div className="flex justify-start md:justify-center mb-6">
         <input
           type="text"
-          value={id}
+          value={searchKeyword}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder="Search for animations..."
           className="w-3/4 md:w-1/2 p-2 border border-gray-300 rounded-l-md focus:outline-none"
@@ -38,20 +38,21 @@ const LottieSearch: React.FC = () => {
           Search
         </button>
       </div>
-      {id && (
+      {searchKeyword && (
         <div className="results">
-          {item && (
-            <div>
-              <LottiePreview animation={item.lottieFile.contents} />
-              <div className="text-sm">
-                <p>Description: {item.description}</p>
-                <p>Tags: {item.tags}</p>
-                <p>Author: {item.author}</p>
-                <p>Uploaded: {item.dateUploaded}</p>
+          {items.length > 0 &&
+            items.map((item) => (
+              <div>
+                <LottiePreview animation={item.lottieFile.contents} />
+                <div className="text-sm">
+                  <p>Description: {item.description}</p>
+                  <p>Tags: {item.tags}</p>
+                  <p>Author: {item.author}</p>
+                  <p>Uploaded: {item.dateUploaded}</p>
+                </div>
               </div>
-            </div>
-          )}
-          {error && <p>Error: {error}</p>}
+            ))}
+          {error && <p>Search encountered an error: {error}</p>}
         </div>
       )}
     </div>

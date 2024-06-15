@@ -116,6 +116,30 @@ export const getItem = createAsyncThunk("item/getItem", async (id: string) => {
   return client.request(query, variables);
 });
 
+// Async thunk for searching for items
+export const searchItems = createAsyncThunk(
+  "items/searchItems",
+  async (keyword: string) => {
+    const query = gql`
+      query SearchItems($keyword: String!) {
+        searchItems(keyword: $keyword) {
+          id
+          description
+          author
+          tags
+          dateUploaded
+          lottieFile {
+            filename
+            contents
+          }
+        }
+      }
+    `;
+    const variables = { keyword };
+    return client.request(query, variables);
+  }
+);
+
 const itemSlice = createSlice({
   name: "item",
   initialState,
@@ -143,6 +167,18 @@ const itemSlice = createSlice({
         state.item = action.payload.item;
       })
       .addCase(getItem.rejected, (state, action) => {
+        state.status = "fail";
+        state.error = action.error.message || null;
+      })
+      .addCase(searchItems.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(searchItems.fulfilled, (state, action) => {
+        state.status = "success";
+        state.items = action.payload.searchItems;
+      })
+      .addCase(searchItems.rejected, (state, action) => {
         state.status = "fail";
         state.error = action.error.message || null;
       });
