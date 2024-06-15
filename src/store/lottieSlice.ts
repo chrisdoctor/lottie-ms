@@ -8,9 +8,18 @@ const client = new GraphQLClient(endpoint, {
   },
 });
 
+interface LottieFile {
+  filename: string;
+  contents: Record<string, any>;
+}
+
 interface Item {
   id: string;
   description: string;
+  author: string;
+  tags: string[];
+  dateUploaded: string;
+  lottieFile: LottieFile;
 }
 
 interface ItemState {
@@ -30,16 +39,58 @@ const initialState: ItemState = {
 // Async thunk for adding an item
 export const addItem = createAsyncThunk(
   "item/addItem",
-  async ({ id, description }: { id: string; description: string }) => {
+  async ({
+    id,
+    description,
+    author,
+    tags,
+    dateUploaded,
+    lottieFile,
+  }: {
+    id: string;
+    description: string;
+    author: string;
+    tags: string[];
+    dateUploaded: string;
+    lottieFile: LottieFile;
+  }) => {
     const mutation = gql`
-      mutation AddItem($id: String!, $description: String!) {
-        addItem(id: $id, description: $description) {
+      mutation AddItem(
+        $id: String!
+        $description: String!
+        $author: String!
+        $tags: [String!]!
+        $dateUploaded: String!
+        $lottieFile: LottieFileInput!
+      ) {
+        addItem(
+          id: $id
+          description: $description
+          author: $author
+          tags: $tags
+          dateUploaded: $dateUploaded
+          lottieFile: $lottieFile
+        ) {
           id
           description
+          author
+          tags
+          dateUploaded
+          lottieFile {
+            filename
+            contents
+          }
         }
       }
     `;
-    const variables = { id, description };
+    const variables = {
+      id,
+      description,
+      author,
+      tags,
+      dateUploaded,
+      lottieFile,
+    };
     return client.request(mutation, variables);
   }
 );
@@ -51,6 +102,13 @@ export const getItem = createAsyncThunk("item/getItem", async (id: string) => {
       item(id: $id) {
         id
         description
+        author
+        tags
+        dateUploaded
+        lottieFile {
+          filename
+          contents
+        }
       }
     }
   `;
