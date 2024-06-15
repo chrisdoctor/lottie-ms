@@ -74,6 +74,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
               <LottieUploadFilePicker
                 fileName={fileName}
                 setFileName={setFileName}
+                content={fileContent}
                 setContent={setFileContent}
                 error={submitted && !fileName}
               />

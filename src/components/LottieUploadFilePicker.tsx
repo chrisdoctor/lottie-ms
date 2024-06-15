@@ -4,6 +4,7 @@ import LottiePreview from "./LottiePreview";
 interface PickerInputProps {
   fileName: string;
   setFileName: (value: string) => void;
+  content: string;
   setContent: (value: string) => void;
   error?: boolean;
 }
@@ -19,6 +20,7 @@ interface LottieFile {
 const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
   fileName,
   setFileName,
+  content,
   setContent,
   error = false,
 }) => {
@@ -102,7 +104,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
           <label className="block text-sm font-medium text-gray-700">
             Preview:
           </label>
-          <LottiePreview />
+          <LottiePreview animation={content} />
         </div>
       )}
     </Fragment>
