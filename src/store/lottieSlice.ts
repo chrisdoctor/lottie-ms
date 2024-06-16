@@ -140,6 +140,23 @@ export const searchItems = createAsyncThunk(
   }
 );
 
+const mergeUniqueData = (existingData: any[], newData: any[]) => {
+  const mergedData = [...existingData];
+  const existingIds = new Set(existingData.map((item) => item.id));
+
+  newData.forEach((item) => {
+    if (!existingIds.has(item.id)) {
+      mergedData.push(item);
+    }
+  });
+
+  return mergedData;
+};
+
+const containsSubstring = (array: string[], substring: string): boolean => {
+  return array.some((element) => element.includes(substring));
+};
+
 const itemSlice = createSlice({
   name: "item",
   initialState,
@@ -177,10 +194,30 @@ const itemSlice = createSlice({
       .addCase(searchItems.fulfilled, (state, action) => {
         state.status = "success";
         state.items = action.payload.searchItems;
+
+        // Save data to localStorage
+        const existingData = JSON.parse(
+          localStorage.getItem("offlineData") || "[]"
+        );
+        const mergedData = mergeUniqueData(
+          existingData,
+          action.payload.searchItems
+        );
+        localStorage.setItem("offlineData", JSON.stringify(mergedData));
       })
       .addCase(searchItems.rejected, (state, action) => {
-        state.status = "fail";
-        state.error = action.error.message || null;
+        // Search failed; try to use data from localStorage
+        const savedData = JSON.parse(
+          localStorage.getItem("offlineData") || "[]"
+        );
+        const searchKey = action.meta.arg;
+        const filteredData = savedData.filter(
+          (item: any) =>
+            item.description.includes(searchKey) ||
+            containsSubstring(item.tags, searchKey)
+        );
+
+        state.items = filteredData;
       });
   },
 });
