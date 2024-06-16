@@ -42,7 +42,7 @@ const LottieSearch: React.FC = () => {
         <div className="results flex overflow-x-auto space-x-4 p-4">
           {items.length > 0 &&
             items.map((item) => (
-              <div className="min-w-[180px]">
+              <div className="min-w-[180px]" key={item.id}>
                 <LottiePreview animation={item.lottieFile.contents} />
                 <div className="text-sm">
                   <p>Description: {item.description}</p>
@@ -52,7 +52,6 @@ const LottieSearch: React.FC = () => {
                 </div>
               </div>
             ))}
-          {error && <p>Search encountered an error: {error}</p>}
         </div>
       )}
     </div>
