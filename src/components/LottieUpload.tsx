@@ -44,7 +44,6 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
         contents: fileContent,
       },
     };
-    console.log("ITEM", item);
     dispatch(addItem(item));
     closeDialog();
   };

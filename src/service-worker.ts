@@ -82,9 +82,8 @@ self.addEventListener("fetch", (event: FetchEvent) => {
     return; // Break and prevent other fetches
   }
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      console.log("event.request", event.request.url);
-      return response || fetch(event.request);
-    })
+    caches
+      .match(event.request)
+      .then((response) => response || fetch(event.request))
   );
 });
