@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import App from "./App";
 import "./styles/tailwind.css";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -12,3 +13,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </Provider>
   </React.StrictMode>
 );
+
+serviceWorkerRegistration.register();
