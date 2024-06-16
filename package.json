@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": ".",
   "scripts": {
     "start": "webpack serve --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -32,7 +33,9 @@
     "@types/react-redux": "^7.1.33",
     "@types/redux": "^3.6.0",
     "@types/uuid": "^9.0.8",
+    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
+    "dotenv": "^16.4.5",
     "html-webpack-plugin": "^5.6.0",
     "postcss-loader": "^8.1.1",
     "style-loader": "^4.0.0",
@@ -40,6 +43,12 @@
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.0.4",
+    "workbox-core": "^7.1.0",
+    "workbox-expiration": "^7.1.0",
+    "workbox-precaching": "^7.1.0",
+    "workbox-routing": "^7.1.0",
+    "workbox-strategies": "^7.1.0",
+    "workbox-webpack-plugin": "^7.1.0"
   }
 }
