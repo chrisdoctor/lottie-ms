@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../store";
 import LottieUploadTags from "./LottieUploadTags";
 import LottieUploadField from "./LottieUploadField";
 import LottieUploadFilePicker from "./LottieUploadFilePicker";
+import LottieUploadSuccess from "./LottieUploadSuccess";
 import { v4 as uuidv4 } from "uuid";
 
 interface FileDialogProps {
@@ -22,6 +23,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [author, setAuthor] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
@@ -45,6 +47,12 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
       },
     };
     dispatch(addItem(item));
+    setShowSuccessPopup(true);
+    // closeDialog();
+  };
+
+  const handleSuccessPopupClose = () => {
+    setShowSuccessPopup(false);
     closeDialog();
   };
 
@@ -111,6 +119,9 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
         </div>
+        {showSuccessPopup && (
+          <LottieUploadSuccess onClose={handleSuccessPopupClose} />
+        )}
       </Dialog>
     </Transition>
   );
