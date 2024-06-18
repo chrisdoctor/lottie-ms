@@ -31,7 +31,7 @@ registerRoute(
 
 // Cache API responses with a Network First strategy.
 registerRoute(
-  ({ url }) => url.origin === "http://localhost:4000",
+  ({ url }) => url.origin === process.env.NODE_SERVER_ENDPOINT,
   new NetworkFirst({
     cacheName: "api-cache",
     plugins: [

@@ -9,7 +9,7 @@ import {
   API_STATUS_SUCCESS,
 } from "../constants";
 
-const endpoint = "http://localhost:4000/graphql";
+const endpoint = process.env.GRAPHQL_API_ENDPOINT;
 const client = new GraphQLClient(endpoint, {
   headers: {
     "Content-Type": "application/json",
