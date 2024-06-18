@@ -3,10 +3,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
-import LottieUploadTags from "./LottieUploadTags";
-import LottieUploadField from "./LottieUploadField";
-import LottieUploadFilePicker from "./LottieUploadFilePicker";
-import LottieUploadSuccess from "./LottieUploadSuccess";
+import LottieUploadTags from "./lottieUpload/LottieUploadTags";
+import LottieUploadField from "./lottieUpload/LottieUploadField";
+import LottieUploadFilePicker from "./lottieUpload/LottieUploadFilePicker";
+import LottieUploadSuccess from "./lottieUpload/LottieUploadSuccess";
 import { LottieItem } from "../interfaces";
 import { v4 as uuidv4 } from "uuid";
 
