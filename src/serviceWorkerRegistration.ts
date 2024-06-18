@@ -26,7 +26,6 @@ export function register(config?: Config) {
 
       if (isLocalhost) {
         checkValidServiceWorker(swUrl, config);
-        // navigator.serviceWorker.ready.then(() => {}); // Here we can perform syncing of offline data with the server
       } else {
         registerValidSW(swUrl, config);
       }

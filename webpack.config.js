@@ -48,11 +48,6 @@ module.exports = {
       swDest: "service-worker.js",
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // Limit to 5 MB
     }),
-    // new WorkboxWebpackPlugin.GenerateSW({
-    //   clientsClaim: true,
-    //   skipWaiting: true,
-    //   maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // Limit to 5 mb
-    // }),
     new CopyWebpackPlugin({
       patterns: [
         {
