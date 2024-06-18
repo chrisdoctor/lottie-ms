@@ -23,23 +23,26 @@ const LottieSearch: React.FC = () => {
 
   return (
     <div>
-      <div className="flex justify-start md:justify-center mb-6">
-        <input
-          type="text"
-          value={searchKeyword}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          placeholder="Search for animations..."
-          className="w-3/4 md:w-1/2 p-2 border border-gray-300 rounded-l-md focus:outline-none"
-        />
-        <button
-          onClick={handleSearchClick}
-          className="px-4 py-2 bg-teal-500 text-white rounded-r-md"
-        >
-          Search
-        </button>
-      </div>
+      <form onSubmit={handleSearchClick}>
+        <div className="flex justify-start md:justify-center mb-6">
+          <input
+            type="text"
+            value={searchKeyword}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            placeholder="Search for animations..."
+            className="w-3/4 md:w-1/2 p-2 border border-gray-300 rounded-l-md"
+          />
+          <button
+            type="submit"
+            onClick={handleSearchClick}
+            className="px-4 py-2 bg-teal-500 text-white rounded-r-md"
+          >
+            Search
+          </button>
+        </div>
+      </form>
       {searchKeyword && (
-        <div className="results flex overflow-x-auto space-x-4 p-4">
+        <div className="justify-center flex overflow-x-auto space-x-4 p-4">
           {items.length > 0 &&
             items.map((item) => (
               <div className="min-w-[180px]" key={item.id}>
