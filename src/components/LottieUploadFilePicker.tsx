@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import LottiePreview from "./LottiePreview";
+import { LottieJSONFile } from "../interfaces";
 
 interface PickerInputProps {
   fileName: string;
@@ -7,14 +8,6 @@ interface PickerInputProps {
   content: string;
   setContent: (value: string) => void;
   error?: boolean;
-}
-
-interface LottieFile {
-  v: string;
-  fr: number;
-  ip: number;
-  op: number;
-  layers: object[];
 }
 
 const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
@@ -63,7 +56,7 @@ const LottieUploadFilePicker: React.FC<PickerInputProps> = ({
     }
   };
 
-  const validateLottieFile = (json: LottieFile) => {
+  const validateLottieFile = (json: LottieJSONFile) => {
     const requiredKeys = ["v", "fr", "ip", "op", "layers"];
     return requiredKeys.every((key) => key in json);
   };

@@ -7,6 +7,7 @@ import LottieUploadTags from "./LottieUploadTags";
 import LottieUploadField from "./LottieUploadField";
 import LottieUploadFilePicker from "./LottieUploadFilePicker";
 import LottieUploadSuccess from "./LottieUploadSuccess";
+import { LottieItem } from "../interfaces";
 import { v4 as uuidv4 } from "uuid";
 
 interface FileDialogProps {
@@ -35,7 +36,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    const item = {
+    const item: LottieItem = {
       id: uuidv4(),
       dateUploaded: Date().toString(),
       description,

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GraphQLClient, gql } from "graphql-request";
+import { LottieItem } from "../interfaces";
 
 const endpoint = "http://localhost:4000/graphql";
 const client = new GraphQLClient(endpoint, {
@@ -8,23 +9,9 @@ const client = new GraphQLClient(endpoint, {
   },
 });
 
-interface LottieFile {
-  filename: string;
-  contents: string;
-}
-
-interface Item {
-  id: string;
-  description: string;
-  author: string;
-  tags: string[];
-  dateUploaded: string;
-  lottieFile: LottieFile;
-}
-
 interface ItemState {
-  item: Item | null;
-  items: Item[];
+  item: LottieItem | null;
+  items: LottieItem[];
   status: null | "loading" | "success" | "fail";
   error: string | null;
 }
@@ -39,21 +26,7 @@ const initialState: ItemState = {
 // Async thunk for adding an item
 export const addItem = createAsyncThunk(
   "item/addItem",
-  async ({
-    id,
-    description,
-    author,
-    tags,
-    dateUploaded,
-    lottieFile,
-  }: {
-    id: string;
-    description: string;
-    author: string;
-    tags: string[];
-    dateUploaded: string;
-    lottieFile: LottieFile;
-  }) => {
+  async (item: LottieItem) => {
     const mutation = gql`
       mutation AddItem(
         $id: String!
@@ -83,15 +56,7 @@ export const addItem = createAsyncThunk(
         }
       }
     `;
-    const variables = {
-      id,
-      description,
-      author,
-      tags,
-      dateUploaded,
-      lottieFile,
-    };
-    return client.request(mutation, variables);
+    return client.request(mutation, item);
   }
 );
 
