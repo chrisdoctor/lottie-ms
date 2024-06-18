@@ -53,6 +53,8 @@ This application is a Progressive Web App (PWA) built with React.js, Redux, Grap
 
 ### Running the app
 
+**Frontend:**
+
 1. Start the React App:
 
    For running the the production build and testing offline features:
@@ -65,6 +67,42 @@ This application is a Progressive Web App (PWA) built with React.js, Redux, Grap
 
    ```bash
    npm start
+   ```
+
+**Backend:**
+
+1. Clone the Node.js API repository:
+
+   ```bash
+   git clone https://github.com/chrisdoctor/lottie-graphql-api
+   cd lottie-graphql-api
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the application:
+
+   ```bash
+   npm run start
+   ```
+
+**Database:**
+
+1. Start MongoDB using Docker Compose. It is located in a separate repository:
+
+   ```bash
+   git clone https://github.com/chrisdoctor/lottie-mongo-container
+   cd lottie-mongo-container
+   ```
+
+2. Start the container.
+
+   ```bash
+   docker-compose up -d
    ```
 
 ### Offline Functionality
