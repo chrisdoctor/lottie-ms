@@ -6,9 +6,10 @@ import { AppDispatch, RootState } from "../store";
 import LottieUploadTags from "./lottieUpload/LottieUploadTags";
 import LottieUploadField from "./lottieUpload/LottieUploadField";
 import LottieUploadFilePicker from "./lottieUpload/LottieUploadFilePicker";
-import LottieUploadSuccess from "./lottieUpload/LottieUploadSuccess";
+import LottieUploadPopup from "./lottieUpload/LottieUploadPopup";
 import { LottieItem } from "../interfaces";
 import { v4 as uuidv4 } from "uuid";
+import { API_STATUS_SUCCESS } from "../constants";
 
 interface FileDialogProps {
   isOpen: boolean;
@@ -24,10 +25,9 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [author, setAuthor] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showSuccessPopup, setShowPopup] = useState(false);
 
   const itemStatus = useSelector((state: RootState) => state.item.status);
-  const error = useSelector((state: RootState) => state.item.error);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -48,13 +48,16 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
       },
     };
     dispatch(addItem(item));
-    setShowSuccessPopup(true);
+    setShowPopup(true);
     // closeDialog();
   };
 
-  const handleSuccessPopupClose = () => {
-    setShowSuccessPopup(false);
-    closeDialog();
+  const handlePopupClose = () => {
+    setShowPopup(false);
+
+    if (itemStatus === API_STATUS_SUCCESS) {
+      closeDialog();
+    }
   };
 
   const closeDialog = () => {
@@ -120,9 +123,7 @@ const LottieUpload: React.FC<FileDialogProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
         </div>
-        {showSuccessPopup && (
-          <LottieUploadSuccess onClose={handleSuccessPopupClose} />
-        )}
+        {showSuccessPopup && <LottieUploadPopup onClose={handlePopupClose} />}
       </Dialog>
     </Transition>
   );
