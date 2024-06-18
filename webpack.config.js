@@ -3,11 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
-const dotenv = require("dotenv");
-dotenv.config();
+const Dotenv = require("dotenv-webpack");
 
-console.log("PUBLIC_URL:", process.env.PUBLIC_URL);
-console.log("ENVS:", process.env);
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -59,8 +56,12 @@ module.exports = {
         },
       ],
     }),
-    new webpack.DefinePlugin({
-      "process.env.PUBLIC_URL": JSON.stringify(process.env.PUBLIC_URL),
+    // new webpack.DefinePlugin({
+    //   // create process.env.PUBLIC_URL as constant, for use in index.hml
+    //   "process.env.PUBLIC_URL": JSON.stringify(process.env.PUBLIC_URL),
+    // }),
+    new Dotenv({
+      path: "./.env", // load environment variables
     }),
   ],
   devServer: {
