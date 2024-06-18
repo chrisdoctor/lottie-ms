@@ -15,12 +15,6 @@ const LottieUploadField: React.FC<FieldInputProps> = ({
   required = false,
   error = false,
 }) => {
-  // const [touched, setTouched] = useState(false);
-
-  // const handleBlur = () => {
-  //   setTouched(true);
-  // };
-
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700">
@@ -30,7 +24,6 @@ const LottieUploadField: React.FC<FieldInputProps> = ({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        // onBlur={handleBlur}
         className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
       />
       {required && error && (
