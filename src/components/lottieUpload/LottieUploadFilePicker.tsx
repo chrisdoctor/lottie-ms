@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
-import LottiePreview from "./LottiePreview";
-import { LottieJSONFile } from "../interfaces";
-
+import LottiePreview from "../LottiePreview";
+import { LottieJSONFile } from "../../interfaces";
 interface PickerInputProps {
   fileName: string;
   setFileName: (value: string) => void;
