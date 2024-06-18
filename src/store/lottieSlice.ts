@@ -4,6 +4,9 @@ import { LottieItem } from "../interfaces";
 import {
   LOCALSTORAGE_CACHED_ITEMS_KEY,
   LOCALSTORAGE_UPLOADED_ITEMS_KEY,
+  API_STATUS_FAIL,
+  API_STATUS_LOADING,
+  API_STATUS_SUCCESS,
 } from "../constants";
 
 const endpoint = "http://localhost:4000/graphql";
@@ -16,7 +19,11 @@ const client = new GraphQLClient(endpoint, {
 interface ItemState {
   item: LottieItem | null;
   items: LottieItem[];
-  status: null | "loading" | "success" | "fail";
+  status:
+    | null
+    | typeof API_STATUS_LOADING
+    | typeof API_STATUS_SUCCESS
+    | typeof API_STATUS_FAIL;
   error: string | null;
 }
 
@@ -127,22 +134,22 @@ const itemSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addItem.pending, (state) => {
-        state.status = "loading";
+        state.status = API_STATUS_LOADING;
       })
       .addCase(addItem.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = API_STATUS_SUCCESS;
         state.items.push(action.payload.addItem);
       })
       .addCase(addItem.rejected, (state, action) => {
-        state.status = "fail";
+        state.status = API_STATUS_FAIL;
         state.error = action.error.message || null;
       })
       .addCase(searchItems.pending, (state) => {
-        state.status = "loading";
+        state.status = API_STATUS_LOADING;
         state.error = null;
       })
       .addCase(searchItems.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = API_STATUS_SUCCESS;
         state.items = action.payload.searchItems;
 
         // Save data to localStorage
@@ -160,17 +167,19 @@ const itemSlice = createSlice({
       })
       .addCase(searchItems.rejected, (state, action) => {
         // Search failed; try to use data from localStorage
-        const savedData = JSON.parse(
-          localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
-        );
-        const searchKey = action.meta.arg;
-        const filteredData = savedData.filter(
-          (item: any) =>
-            item.description.includes(searchKey) ||
-            containsSubstring(item.tags, searchKey)
-        );
-
-        state.items = filteredData;
+        if (!navigator.onLine) {
+          const savedData = JSON.parse(
+            localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
+          );
+          const searchKey = action.meta.arg;
+          const filteredData = savedData.filter(
+            (item: any) =>
+              item.description.includes(searchKey) ||
+              containsSubstring(item.tags, searchKey)
+          );
+          state.items = filteredData;
+          state.status = API_STATUS_SUCCESS;
+        }
       });
   },
 });

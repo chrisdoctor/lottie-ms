@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetState, searchItems } from "../store/lottieSlice";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
+import { API_STATUS_SUCCESS } from "../constants";
 
 const LottieSearch: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const items = useSelector((state: RootState) => state.item.items);
-  // const itemStatus = useSelector((state: RootState) => state.item.status);
+  const itemStatus = useSelector((state: RootState) => state.item.status);
   const error = useSelector((state: RootState) => state.item.error);
 
   const handleSearchClick = (e: React.FormEvent) => {
@@ -41,11 +42,11 @@ const LottieSearch: React.FC = () => {
           </button>
         </div>
       </form>
-      {searchKeyword && (
+      {searchKeyword && itemStatus === API_STATUS_SUCCESS && (
         <div className="justify-center flex overflow-x-auto space-x-4 p-4">
-          {items.length > 0 &&
+          {items.length > 0 ? (
             items.map((item) => (
-              <div className="min-w-[180px]" key={item.id}>
+              <div className="min-w-[180px] sm:mx-4" key={item.id}>
                 <LottiePreview animation={item.lottieFile.contents} />
                 <div className="text-sm">
                   <p>Description: {item.description}</p>
@@ -54,7 +55,12 @@ const LottieSearch: React.FC = () => {
                   <p>Uploaded: {item.dateUploaded}</p>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <p font-bold text-base mt-1>
+              Sorry, no animations found
+            </p>
+          )}
         </div>
       )}
     </div>
