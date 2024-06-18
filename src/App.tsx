@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addItem } from "./store/lottieSlice";
 import { AppDispatch } from "./store";
 import Main from "./components/Main";
+import { LOCALSTORAGE_UPLOADED_ITEMS_KEY } from "./constants";
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -10,7 +11,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const syncLocalStorageData = async () => {
       const offlineData = JSON.parse(
-        localStorage.getItem("offlineDataUploads") || "[]"
+        localStorage.getItem(LOCALSTORAGE_UPLOADED_ITEMS_KEY) || "[]"
       );
       for (const item of offlineData) {
         try {
@@ -20,7 +21,7 @@ const App: React.FC = () => {
         }
       }
       // Clear localStorage after successful sync
-      localStorage.removeItem("offlineDataUploads");
+      localStorage.removeItem(LOCALSTORAGE_UPLOADED_ITEMS_KEY);
     };
 
     const handleOnline = () => {

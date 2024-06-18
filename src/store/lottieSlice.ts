@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GraphQLClient, gql } from "graphql-request";
 import { LottieItem } from "../interfaces";
+import {
+  LOCALSTORAGE_CACHED_ITEMS_KEY,
+  LOCALSTORAGE_UPLOADED_ITEMS_KEY,
+} from "../constants";
 
 const endpoint = "http://localhost:4000/graphql";
 const client = new GraphQLClient(endpoint, {
@@ -30,10 +34,13 @@ export const addItem = createAsyncThunk(
     if (!navigator.onLine) {
       // Save item to localStorage if offline
       const offlineData = JSON.parse(
-        localStorage.getItem("offlineDataUploads") || "[]"
+        localStorage.getItem(LOCALSTORAGE_UPLOADED_ITEMS_KEY) || "[]"
       );
       offlineData.push(item);
-      localStorage.setItem("offlineDataUploads", JSON.stringify(offlineData));
+      localStorage.setItem(
+        LOCALSTORAGE_UPLOADED_ITEMS_KEY,
+        JSON.stringify(offlineData)
+      );
       return { addItem: item };
     } else {
       const mutation = gql`
@@ -172,18 +179,21 @@ const itemSlice = createSlice({
 
         // Save data to localStorage
         const existingData = JSON.parse(
-          localStorage.getItem("offlineData") || "[]"
+          localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
         );
         const mergedData = mergeUniqueData(
           existingData,
           action.payload.searchItems
         );
-        localStorage.setItem("offlineData", JSON.stringify(mergedData));
+        localStorage.setItem(
+          LOCALSTORAGE_CACHED_ITEMS_KEY,
+          JSON.stringify(mergedData)
+        );
       })
       .addCase(searchItems.rejected, (state, action) => {
         // Search failed; try to use data from localStorage
         const savedData = JSON.parse(
-          localStorage.getItem("offlineData") || "[]"
+          localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
         );
         const searchKey = action.meta.arg;
         const filteredData = savedData.filter(
