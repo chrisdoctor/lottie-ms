@@ -138,7 +138,6 @@ const itemSlice = createSlice({
       })
       .addCase(addItem.fulfilled, (state, action) => {
         state.status = API_STATUS_SUCCESS;
-        state.items.push(action.payload.addItem);
       })
       .addCase(addItem.rejected, (state, action) => {
         state.status = API_STATUS_FAIL;
