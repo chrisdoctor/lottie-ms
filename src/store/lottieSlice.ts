@@ -62,6 +62,9 @@ const itemSlice = createSlice({
         if (!navigator.onLine) {
           state.items = searchUsingLocalStorage(action.meta.arg);
           state.status = API_STATUS_SUCCESS;
+        } else {
+          state.status = API_STATUS_FAIL;
+          state.error = action.error.message || null;
         }
       });
   },

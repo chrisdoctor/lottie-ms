@@ -4,7 +4,7 @@ import { resetState } from "../store/lottieSlice";
 import { searchItems } from "../store/graphql/searchItems";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
-import { API_STATUS_SUCCESS } from "../constants";
+import { API_STATUS_FAIL, API_STATUS_SUCCESS } from "../constants";
 
 const LottieSearch: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -63,6 +63,11 @@ const LottieSearch: React.FC = () => {
             </p>
           )}
         </div>
+      )}
+      {searchKeyword && itemStatus === API_STATUS_FAIL && (
+        <p font-bold text-base mt-1>
+          Error encountered: {error}
+        </p>
       )}
     </div>
   );
