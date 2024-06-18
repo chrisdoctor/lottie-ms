@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addItem } from "./store/lottieSlice";
+import { addItem } from "./store/graphql/addItem";
 import { AppDispatch } from "./store";
 import Main from "./components/Main";
 import { LOCALSTORAGE_UPLOADED_ITEMS_KEY } from "./constants";

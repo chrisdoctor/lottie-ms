@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../store/lottieSlice";
+import { addItem } from "../store/graphql/addItem";
 import { AppDispatch, RootState } from "../store";
 import LottieUploadTags from "./lottieUpload/LottieUploadTags";
 import LottieUploadField from "./lottieUpload/LottieUploadField";

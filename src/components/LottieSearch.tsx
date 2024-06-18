@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetState, searchItems } from "../store/lottieSlice";
+import { resetState } from "../store/lottieSlice";
+import { searchItems } from "../store/graphql/searchItems";
 import { AppDispatch, RootState } from "../store";
 import LottiePreview from "./LottiePreview";
 import { API_STATUS_SUCCESS } from "../constants";
