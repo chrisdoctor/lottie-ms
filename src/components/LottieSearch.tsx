@@ -43,7 +43,7 @@ const LottieSearch: React.FC = () => {
         </div>
       </form>
       {searchKeyword && itemStatus === API_STATUS_SUCCESS && (
-        <div className="justify-center flex overflow-x-auto space-x-4 p-4">
+        <div className="overflow-x-auto justify-around flex space-x-4 p-4">
           {items.length > 0 ? (
             items.map((item) => (
               <div className="min-w-[180px] sm:mx-4" key={item.id}>
