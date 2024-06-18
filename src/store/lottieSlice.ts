@@ -27,36 +27,46 @@ const initialState: ItemState = {
 export const addItem = createAsyncThunk(
   "item/addItem",
   async (item: LottieItem) => {
-    const mutation = gql`
-      mutation AddItem(
-        $id: String!
-        $description: String!
-        $author: String!
-        $tags: [String!]!
-        $dateUploaded: String!
-        $lottieFile: LottieFileInput!
-      ) {
-        addItem(
-          id: $id
-          description: $description
-          author: $author
-          tags: $tags
-          dateUploaded: $dateUploaded
-          lottieFile: $lottieFile
+    if (!navigator.onLine) {
+      // Save item to localStorage if offline
+      const offlineData = JSON.parse(
+        localStorage.getItem("offlineDataUploads") || "[]"
+      );
+      offlineData.push(item);
+      localStorage.setItem("offlineDataUploads", JSON.stringify(offlineData));
+      return { addItem: item };
+    } else {
+      const mutation = gql`
+        mutation AddItem(
+          $id: String!
+          $description: String!
+          $author: String!
+          $tags: [String!]!
+          $dateUploaded: String!
+          $lottieFile: LottieFileInput!
         ) {
-          id
-          description
-          author
-          tags
-          dateUploaded
-          lottieFile {
-            filename
-            contents
+          addItem(
+            id: $id
+            description: $description
+            author: $author
+            tags: $tags
+            dateUploaded: $dateUploaded
+            lottieFile: $lottieFile
+          ) {
+            id
+            description
+            author
+            tags
+            dateUploaded
+            lottieFile {
+              filename
+              contents
+            }
           }
         }
-      }
-    `;
-    return client.request(mutation, item);
+      `;
+      return client.request(mutation, item);
+    }
   }
 );
 
