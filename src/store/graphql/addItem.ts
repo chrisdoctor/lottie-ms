@@ -2,22 +2,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { gql } from "graphql-request";
 import { apiClient } from "./apiClient";
 import { LottieItem } from "../../interfaces";
-import { LOCALSTORAGE_UPLOADED_ITEMS_KEY } from "../../constants";
+import { saveUploadToLocalStorage } from "../offlineFunctions/saveUploadToLocalStorage";
 
 // Async thunk for adding an item
 export const addItem = createAsyncThunk(
   "item/addItem",
   async (item: LottieItem) => {
     if (!navigator.onLine) {
-      // Save item to localStorage if offline
-      const offlineData = JSON.parse(
-        localStorage.getItem(LOCALSTORAGE_UPLOADED_ITEMS_KEY) || "[]"
-      );
-      offlineData.push(item);
-      localStorage.setItem(
-        LOCALSTORAGE_UPLOADED_ITEMS_KEY,
-        JSON.stringify(offlineData)
-      );
+      // Save uploaded item to localStorage first if offline
+      saveUploadToLocalStorage(item);
       return { addItem: item };
     } else {
       const mutation = gql`

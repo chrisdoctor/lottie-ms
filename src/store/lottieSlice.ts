@@ -39,7 +39,7 @@ const itemSlice = createSlice({
       .addCase(addItem.pending, (state) => {
         state.status = API_STATUS_LOADING;
       })
-      .addCase(addItem.fulfilled, (state, action) => {
+      .addCase(addItem.fulfilled, (state, _action) => {
         state.status = API_STATUS_SUCCESS;
       })
       .addCase(addItem.rejected, (state, action) => {
