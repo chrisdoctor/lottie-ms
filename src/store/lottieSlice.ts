@@ -153,11 +153,11 @@ const itemSlice = createSlice({
         state.items = action.payload.searchItems;
 
         // Save data to localStorage
-        const existingData = JSON.parse(
+        const localStorageData = JSON.parse(
           localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
         );
         const mergedData = mergeUniqueData(
-          existingData,
+          localStorageData,
           action.payload.searchItems
         );
         localStorage.setItem(
@@ -168,11 +168,11 @@ const itemSlice = createSlice({
       .addCase(searchItems.rejected, (state, action) => {
         // Search failed; try to use data from localStorage
         if (!navigator.onLine) {
-          const savedData = JSON.parse(
+          const localStorageData = JSON.parse(
             localStorage.getItem(LOCALSTORAGE_CACHED_ITEMS_KEY) || "[]"
           );
           const searchKey = action.meta.arg;
-          const filteredData = savedData.filter(
+          const filteredData = localStorageData.filter(
             (item: any) =>
               item.description.includes(searchKey) ||
               containsSubstring(item.tags, searchKey)
